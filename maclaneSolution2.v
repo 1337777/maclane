@@ -3,9 +3,31 @@
 Proph
 
 https://gitlab.com/1337777/maclane/blob/master/maclaneSolution2.v
+https://gitlab.com/1337777/dosen/blob/master/coherence2.v
 
 solves how 1337777 mom associativity pentagon is some recursive square
 (reflective-functorial bracket-elimination cut-elimination resolution)
+
+The only thing to remember : This grammatical bracket-elimination cut-elimination
+resolution and confluence technique is the saint holy halo oxygene of all the computer
+programming of polymorph mathematics by the 1337777.OOO SOLUTION PROGRAMME.
+
+
+〇 + ( 一 + ( 二 + 三 ) )   ( 〇 + 一 ) + ( 二 + 三 )   <<( ( ( 〇 + 一 ) + 二 ) + 三 )
+
+  __________________>_________________|_________________>_________________
+  |                                                                      .
+  |                <{}                                 <{}               . 
+  |                                                                      .
+  |                                                                      .
+  v  〇 + <{}      |--->                                   <<( ( ( 1 + 1 ) + 1 ) + 1 )
+  |                                                                      .
+  |                <{}                            <<{} <<{+ 三 }         .
+  |                                                                      .
+  |_________________>_________________|_________________>________________.
+
+〇 + ( ( 一 + 二 ) + 三 )   ( 〇 + ( 一 + 二 ) ) + 三   <<( ( ( 〇 + 一 ) + 二 ) + 三 )
+     
 
  **)
 

@@ -1,0 +1,11 @@
+#+TITLE: REVIEW 1337777 SOLUTION PROGRAMME : MOM ASSOCIATIVITY PENTAGON IS SOME RECURSIVE SQUARE (reflective-functorial associativity-bracket-elimination cut-elimination resolution)
+#+AUTHOR: https://github.com/1337777
+#+OPTIONS: date:nil email:nil timestamp:nil toc:nil broken-links:t
+#+LATEX_CLASS: article
+
+#+LATEX: \begin{abstract}
+#+LATEX: \keywords{Keywords : coq ; computational cut-elimination ; logical cut-elimination ; confluence ; coherence ; non-linear arithmetic ; polymorph functors ; metafunctors-grammar ; limits ; modos ; duality}
+#+LATEX: \end{abstract}
+
+#+LATEX: \begin{figure}\centering \includegraphics[scale=0.6]{maclaneSolution.svg.pdf} \caption{Angle of view}\end{figure}
+#+HTML: <object type="image/svg+xml" data="./maclaneSolution.svg.svg" class="org-svg">

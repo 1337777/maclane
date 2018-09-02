@@ -48,5 +48,5 @@ BUY MOM RECURSIVE T-SQUARE :: paypal.me/1337777 1337777.OOO@gmail.com ; 微信�
 
 -----
 
-[![BUY MOM RECURSIVE T-SQUARE paypal.me/1337777](./recursive_t-square_front.png "BUY MOM RECURSIVE T-SQUARE paypal.me/1337777")](https://paypal.me/1337777) [![BUY MOM RECURSIVE T-SQUARE paypal.me/1337777](./recursive_t-square_back.png "BUY MOM RECURSIVE T-SQUARE paypal.me/1337777")](https://paypal.me/1337777) [![BUY MOM RECURSIVE T-SQUARE 2796386464@qq.com](./wechatpay.png "BUY MOM RECURSIVE T-SQUARE paypal.me/1337777")](mailto://2796386464@qq.com)
+[![BUY MOM RECURSIVE T-SQUARE paypal.me/1337777](./recursive_t-square_front.png "BUY MOM RECURSIVE T-SQUARE paypal.me/1337777")](https://paypal.me/1337777) [![BUY MOM RECURSIVE T-SQUARE paypal.me/1337777](./recursive_t-square_back.png "BUY MOM RECURSIVE T-SQUARE paypal.me/1337777")](https://paypal.me/1337777) [![BUY MOM RECURSIVE T-SQUARE 2796386464@qq.com](./wechatpay.png "BUY MOM RECURSIVE T-SQUARE paypal.me/1337777")](mailto:2796386464@qq.com)
 

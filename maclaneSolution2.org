@@ -1,0 +1,11 @@
+#+TITLE: REVIEW 1337777 SOLUTION PROGRAMME : MOM ASSOCIATIVITY PENTAGON IS SOME RECURSIVE SQUARE ( FUNCTORIAL-REFLECTION ASSOCIATIVITY-ELIMINATION CUT-ELIMINATION CONFLUENCE PROGRAMMED IN COQ )
+#+AUTHOR: https://github.com/1337777
+#+OPTIONS: date:nil email:nil timestamp:nil toc:nil broken-links:t
+#+LATEX_CLASS: article
+
+#+LATEX: \begin{abstract}
+#+LATEX: \keywords{1337777.OOO ; COQ ; RECURSIVE SQUARE ; MODOS}
+#+LATEX: \end{abstract}
+
+#+LATEX: \begin{figure}\centering \includegraphics[scale=0.6]{maclaneSolution.svg.pdf} \end{figure}
+#+HTML: <object type="image/svg+xml" data="./maclaneSolution.svg.svg" class="org-svg">

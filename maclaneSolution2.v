@@ -2,10 +2,42 @@
 
 Proph
 
-https://gitlab.com/1337777/maclane/blob/master/maclaneSolution2.v
+https://github.com/1337777/maclane/blob/master/maclaneSolution2.thy
+https://github.com/1337777/maclane/blob/master/maclaneSolution2.v
+https://github.com/1337777/dosen/blob/master/coherence2.v
 
-solves how 1337777 mom associativity pentagon is some recursive square
-(reflective-functorial bracket-elimination cut-elimination resolution)
+solves how 1337777 mom associativity pentagon is some recursive square (reflective-functorial associativity-bracket-elimination cut-elimination resolution)
+
+The only thing to remember : this grammatical associativity-bracket-elimination cut-elimination resolution and confluence technique is the foundation of polymorph mathematics ...
+
+What is the metalogic for polymorphism ? ( "HOL vs COQ" )
+
+HOL has its own metalogic which is parallel-search ( "sequent/natural" , using unlimited-outer-nesting-of-metaconsequences as questioned by Kubota ) deduction with unification of metavariables . Therefore HOL may erase logical-properties from progamming and instead deleguate , to some ad-hoc particular "object-logic" , the task of automatic inferences involved during programming-under-logical-context . For example , definite/indefinite descriptions or how to simulate implicit parameters in the polymorphism object-logic :
+
+( wellIndexed f A B ==> wellIndexed g B C ==> ( CompositionImplicit f g 
+= ( Composition A B f C g :: morphismsDatatype ) ) )
+
+COQ unites programs carrying logical-properties via indexed/dependent datatypes ; the consequence is the semi-automatic inference/unification of implicit/hidden parameters via existential/meta-variables . Does this say that dependent-types ( beyond its semi-automatic inference/unification algorithms ) is better for polymorphism ( "category theory" ) ? NO ... The pretty search into the ``categorical semantics of (higher-)dependent-types as internal logic'' is for the museum mostly ; the angle of view of polymorphism mathematics is that itself is ( by-definition ... ) some computational logic .
+
+ *)
+
+(**
+
+A + ( B + [ C + D ] )      ( A + B ) + ( C + D )          ( [ A + B ] + C ) + D
+
+  __________________>________________|_______________>________________
+  |                                                                   .
+  |                                                                   . 
+  |                                                                   .
+  |                                                                   .
+  v               |--->                                   ( [ 1 + 1 ] + 1 ) + 1
+  |                                                                   .
+  |                                                                   .
+  |                                                                   .
+  |_________________>________________|_______________>________________.
+
+A + ( [ B + C ] + D )       ( A + [ B + C ] ) + D         ( [ A + B ] + C ) + D
+
 
  **)
 
@@ -13,7 +45,7 @@ solves how 1337777 mom associativity pentagon is some recursive square
 
 #+BEGIN_SRC coq :exports both :results silent **)
 
-Module BRACKETING_ELIMINATION.
+Module ASSOCIATIVITY_ELIMINATION.
 
 Set Implicit Arguments.
 Unset Strict Implicit.
@@ -21,7 +53,7 @@ Unset Printing Implicit Defensive.
 
 Inductive obLogic : Type :=
 | Atom : nat -> obLogic
-| Destruct0 : obLogic -> obLogic -> obLogic .
+| Multiply0 : obLogic -> obLogic -> obLogic .
 
 Delimit Scope log_scope with log.
 Open Scope log_scope.
@@ -30,18 +62,18 @@ Notation "'Atom A" :=
   (@Atom A) (at level 35, right associativity) : log_scope.
 
 Notation "A &0 B" :=
-  (@Destruct0 A B) (at level 35, right associativity) : log_scope.
+  (@Multiply0 A B) (at level 35, right associativity) : log_scope.
 
 Reserved Notation "''Logic(' A1 |- A2 )"
          (at level 0, format "''Logic('  A1  |-  A2  )").
 
-Inductive Logic : obLogic -> obLogic -> Type :=
+Inductive morLogic : obLogic -> obLogic -> Type :=
 | Poly : forall A1 A2, 'Logic( A1 |- A2 ) -> forall A3, 'Logic( A2 |- A3 ) -> 'Logic( A1 |- A3 )
 | Iden : forall {A}, 'Logic( A |- A )
-| Destruct1 : forall A1 A2, 'Logic( A1 |- A2 ) ->
+| Multiply1 : forall A1 A2, 'Logic( A1 |- A2 ) ->
                        forall B1 B2, 'Logic( B1 |- B2 ) -> 'Logic( A1 &0 B1 |- A2 &0 B2 )
 | BracketL : forall {A B C}, 'Logic( A &0 (B &0 C) |- (A &0 B) &0 C )
-where "''Logic(' A1 |- A2 )" := (@Logic A1 A2) : log_scope .
+where "''Logic(' A1 |- A2 )" := (@morLogic A1 A2) : log_scope .
 
 Notation "a_ o> a'" :=
   (@Poly _ _ a_ _ a') (at level 35, right associativity) : log_scope.
@@ -50,20 +82,20 @@ Notation "'Iden A" :=
   (@Iden A) (at level 35, right associativity) : log_scope.
 
 Notation "a1 &1 a2" :=
-  (@Destruct1 _ _ a1 _ _ a2) (at level 35, right associativity) : log_scope.
+  (@Multiply1 _ _ a1 _ _ a2) (at level 35, right associativity) : log_scope.
 
 Module Sol.
 
   Inductive obLogic : Type :=
   | Atom : nat -> obLogic
-  | Destruct0 : obLogic -> nat -> obLogic .
+  | Multiply0 : obLogic -> nat -> obLogic .
 
   Module Import Ex_Notations'.
     Delimit Scope sol_scope with sol.
     Notation "'Atom A" :=
       (@Atom A) (at level 35, right associativity) : sol_scope.
     Notation "A &0 B" :=
-      (@Destruct0 A B) (at level 35, right associativity) : sol_scope .
+      (@Multiply0 A B) (at level 35, right associativity) : sol_scope .
   End Ex_Notations'.
 
   Fixpoint toObLogic (A : obLogic) :=
@@ -74,32 +106,32 @@ Module Sol.
 
   Section Section1.
 
-    Inductive Logic : obLogic -> obLogic -> Type :=
+    Inductive morLogic : obLogic -> obLogic -> Type :=
     | Poly : forall A1 A2, 'Logic( A1 |- A2 ) -> forall A3, 'Logic( A2 |- A3 ) -> 'Logic( A1 |- A3 )
     | Iden : forall {A}, 'Logic( ( 'Atom A )%sol |- ( 'Atom A )%sol )
-    | Destruct1 : forall A1 A2, 'Logic( A1 |- A2 ) ->
+    | Multiply1 : forall A1 A2, 'Logic( A1 |- A2 ) ->
                            forall B, 'Logic( ( A1 &0 B ) %sol |- ( A2 &0 B ) %sol )
-    where "''Logic(' A1 |- A2 )" := (@Logic A1 A2) .
+    where "''Logic(' A1 |- A2 )" := (@morLogic A1 A2) .
 
   End Section1.
 
   Module Import Ex_Notations.
     Export Ex_Notations'.
-    Notation "''Logic(' A1 |- A2 )" := (@Logic A1 A2) : sol_scope .
+    Notation "''Logic(' A1 |- A2 )" := (@morLogic A1 A2) : sol_scope .
     Notation "a_ o> a'" :=
       (@Poly _ _ a_ _ a') (at level 35, right associativity) : sol_scope .
     Notation "'Iden A" :=
       (@Iden A) (at level 35, right associativity) : sol_scope.
     Notation "a &1 B" :=
-      (@Destruct1 _ _ a B) (at level 35, right associativity) : sol_scope .
+      (@Multiply1 _ _ a B) (at level 35, right associativity) : sol_scope .
   End Ex_Notations.    
 
-  Fixpoint toLogic A1 A2 (a : 'Logic( A1 |- A2 ) %sol)
+  Fixpoint toMorLogic A1 A2 (a : 'Logic( A1 |- A2 ) %sol)
     : 'Logic( toObLogic A1 |- toObLogic A2 ) %log :=
     match a with
-    | ( a_ o> a' )%sol => ( ( @toLogic _ _ a_ ) o> ( @toLogic _ _ a' ) )%log
+    | ( a_ o> a' )%sol => ( ( @toMorLogic _ _ a_ ) o> ( @toMorLogic _ _ a' ) )%log
     | ( 'Iden A )%sol => ( 'Iden ( 'Atom A ) )%log
-    | ( a &1 B )%sol => ( ( @toLogic _ _ a ) &1 ( 'Iden ( 'Atom B ) ) )%log
+    | ( a &1 B )%sol => ( ( @toMorLogic _ _ a ) &1 ( 'Iden ( 'Atom B ) ) )%log
     end.
   
 End Sol.
@@ -107,7 +139,6 @@ End Sol.
 Import Sol.Ex_Notations.
 
 Reserved Notation "Z _&&0 A" (at level 35, right associativity).
-
 
 Fixpoint resolution0_param (Z : Sol.obLogic) (A : obLogic) {struct A} : Sol.obLogic :=
   match A with
@@ -156,7 +187,7 @@ Fixpoint resolution1_param_Id Z1 Z2 (z : 'Logic( &&0 Z1 |- &&0 Z2 )%sol) A {stru
   : 'Logic( &&0 ( Z1 &0 A )%log |- &&0 ( Z2 &0 A )%log )%sol :=
   (*
   { z_Id : 'Logic( &&0 ( Z1 &0 A )%log |- &&0 ( Z2 &0 A )%log )%sol
-  | ( Iden _&> A ) o> ( Sol.toLogic z_Id ) = ( Sol.toLogic z ) _&> A
+  | ( Iden _&> A ) o> ( Sol.toMorLogic z_Id ) = ( Sol.toMorLogic z ) _&> A
     (* pre-resolutor at domain corresponding to post-resolutor at codomain *) } . *)
   match A with
   | 'Atom A => ( z &1 A )%sol
@@ -170,7 +201,7 @@ Fixpoint resolution1_Id A {struct A} :
   'Logic( &&0 A |- &&0 A ) %sol :=
   (*
   { reso1_Id : 'Logic( &&0 A |- &&0 A ) %sol
-  | ( &> A ) o> ( Sol.toLogic reso1_Id ) = Iden o> ( &> A ) } . *)
+  | ( &> A ) o> ( Sol.toMorLogic reso1_Id ) = Iden o> ( &> A ) } . *)
   match A with
   | 'Atom A => ( 'Iden A )%sol
   | A1 &0 A2 => ( &&01 A1 ) _&&01 A2
@@ -184,8 +215,8 @@ Fixpoint resolution1_param Z1 Z2 (z : 'Logic( &&0 Z1 |- &&0 Z2 )%sol)
   : 'Logic( &&0 ( Z1 &0 A1 )%log |- &&0 ( Z2 &0 A2 )%log )%sol :=
   (*
   : { z_a : 'Logic( &&0 ( Z1 &0 A1 )%log |- &&0 ( Z2 &0 A2 )%log )%sol
-    | ( Iden _&> A1 ) o> ( Sol.toLogic z_a ) 
-             = ( Iden &1 a ) o> ( ( Sol.toLogic z ) _&> A2 )
+    | ( Iden _&> A1 ) o> ( Sol.toMorLogic z_a ) 
+             = ( Iden &1 a ) o> ( ( Sol.toMorLogic z ) _&> A2 )
       (* pre-resolutor at domain corresponding to post-resolutor at codomain *) } . *)
   match a  with
   | a_ o> a' =>
@@ -204,7 +235,7 @@ Fixpoint resolution1 A1 A2 (a : 'Logic( A1 |- A2 )) {struct a} :
   'Logic( &&0 A1 |- &&0 A2 ) %sol :=
   (*
   { reso1_a : 'Logic( &&0 A1 |- &&0 A2 ) %sol
-  | ( &> A1 ) o> ( Sol.toLogic reso1_a ) = a o> ( &> A2) } . *)
+  | ( &> A1 ) o> ( Sol.toMorLogic reso1_a ) = a o> ( &> A2) } . *)
   match a with
   | a_ o> a' => ( ( &&1 a_ ) o> ( &&1 a' ) )%sol
   | 'Iden A => &&01 A
@@ -219,7 +250,7 @@ where "&&1 a" := (@resolution1 _ _ a) .
 Definition recursive_square_excessive
   := forall (A1 A2 : obLogic) (a : 'Logic( A1 |- A2 )),
     ( a o> ( &> A2 )
-      =  ( &> A1 ) o> (Sol.toLogic ( &&1 a )) ).
+      =  ( &> A1 ) o> (Sol.toMorLogic ( &&1 a )) ).
 
 (** critical bracket (right-inner bracket) elimination axiom : **)
 
@@ -228,7 +259,7 @@ Definition recursive_square_critical_rightinner_bracket_elimination
     ( ( ( (@Iden A) &1 (@BracketL B C D) )
           o> ( &> ( A &0 ( ( B &0 C ) &0 D ) ) ) )
       = ( ( ( &> ( A &0 ( B &0 ( C &0 D ) ) ) )
-              o> ( Sol.toLogic ( ( ( ( &&01 A ) _&&01 B ) _&&01 C ) _&&01 D ) ) )
+              o> ( Sol.toMorLogic ( ( ( ( &&01 A ) _&&01 B ) _&&01 C ) _&&01 D ) ) )
           : 'Logic( ( A &0 ( B &0 ( C &0 D ) ) )
                     |- Sol.toObLogic (&&0 ( ( ( A &0 B ) &0 C ) &0 D )) ) ) ) .
 
@@ -239,7 +270,7 @@ Check
     (('Iden A) &1 BracketL)
       o> ( BracketL o> ( ( BracketL o> ( ( (&> A) _&> B ) _&> C ) ) _&> D ) )
     = ( BracketL o> ( BracketL o> ( ( ( (&> A) _&> B ) _&> C ) _&> D ) ) )
-        o> Sol.toLogic ((((&&01 A) _&&01 B) _&&01 C) _&&01 D).
+        o> Sol.toMorLogic ((((&&01 A) _&&01 B) _&&01 C) _&&01 D).
 
 Section pentagon_shortcut.
 
@@ -247,7 +278,7 @@ Section pentagon_shortcut.
         Z3 (z2 : 'Logic( Z2 |- Sol.toObLogic ( &&0 Z3 ) )) A :
     ( z1 o> z2 ) _&> A  =  ( z1 &1 (@Iden A) ) o> ( z2 _&> A ) .
     (* by : induction A , 
-       Destruct1 bifunctoriality , BracketL naturality , congruence *) 
+       Multiply1 bifunctoriality , BracketL naturality , congruence *) 
   Admitted.
 
   (** memo : when all objects A B C D are atomic then this
@@ -267,7 +298,7 @@ Section pentagon_shortcut.
 
 End pentagon_shortcut.
 
-End BRACKETING_ELIMINATION.
+End ASSOCIATIVITY_ELIMINATION.
 
 (**#+END_SRC
 
